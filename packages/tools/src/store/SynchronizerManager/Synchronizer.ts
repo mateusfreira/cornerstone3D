@@ -202,6 +202,7 @@ class Synchronizer {
     }
 
     this._ignoreFiredEvents = true;
+    const promises = [];
     try {
       for (let i = 0; i < this._targetViewports.length; i++) {
         const targetViewport = this._targetViewports[i];
@@ -211,8 +212,9 @@ class Synchronizer {
         if (targetIsSource) {
           continue;
         }
-
-        this._eventHandler(this, sourceViewport, targetViewport, sourceEvent);
+        promises.push(
+          this._eventHandler(this, sourceViewport, targetViewport, sourceEvent)
+        );
       }
     } catch (ex) {
       console.warn(`Synchronizer, for: ${this._eventName}`, ex);
